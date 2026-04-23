@@ -15,12 +15,18 @@ int main(int argc, char const* argv[]) {
   std::cout << " - channels: " << bw64File->channels() << std::endl;
   std::cout << " - sampleRate: " << bw64File->sampleRate() << std::endl;
   std::cout << " - bitDepth: " << bw64File->bitDepth() << std::endl;
-  std::cout << " - numerOfFrames: " << bw64File->numberOfFrames() << std::endl;
+  std::cout << " - numberOfFrames: " << std::dec << bw64File->numberOfFrames() << ", 0x" << std::hex << bw64File->numberOfFrames() << std::endl;
+  std::cout << " - fileSize: " << std::dec << bw64File->fileSize() << ", 0x" << std::hex << bw64File->fileSize() << std::endl;
 
   std::cout << "chunkIds:" << std::endl;
   for (auto& chunk : bw64File->chunks()) {
-    std::cout << " - " << '\'' << utils::fourCCToStr(chunk.id) << '\''
-              << std::endl;
+    std::cout << " - id: " << '\'' << utils::fourCCToStr(chunk.id) << '\'' << std::endl;
+
+    std::cout << "   - size: " << std::dec << chunk.size;
+    std::cout << ", 0x" << std::hex << chunk.size << std::endl;
+
+    std::cout << "   - position: " << std::dec << chunk.position;
+    std::cout << ", 0x" << std::hex << chunk.position << std::endl;
   }
 
   if (bw64File->hasChunk(utils::fourCC("chna"))) {
@@ -29,6 +35,7 @@ int main(int argc, char const* argv[]) {
       std::cout << " - numTracks: " << chnaChunk->numTracks() << std::endl;
       std::cout << " - numUids: " << chnaChunk->numUids() << std::endl;
       std::cout << " - audioIds:" << std::endl;
+
       for (auto audioId : chnaChunk->audioIds()) {
         std::cout << "   - ";
         std::cout << audioId.trackIndex() << ", " << audioId.uid() << ", "
