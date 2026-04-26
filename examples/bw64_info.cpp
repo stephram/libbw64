@@ -11,6 +11,7 @@ int main(int argc, char const* argv[]) {
     auto bw64File = readFile(argv[1]);
 
     std::cout << "Format:" << std::endl;
+    std::cout << " - fileFormat: " << utils::fourCCToStr(bw64File->fileFormat()) << std::endl;
     std::cout << " - formatTag: " << bw64File->formatTag() << std::endl;
     std::cout << " - channels: " << bw64File->channels() << std::endl;
     std::cout << " - sampleRate: " << bw64File->sampleRate() << std::endl;
@@ -49,7 +50,7 @@ int main(int argc, char const* argv[]) {
             std::cout << " - numUids: " << chnaChunk->numUids() << std::endl;
             std::cout << " - audioIds:" << std::endl;
 
-            for (auto audioId : chnaChunk->audioIds()) {
+            for (const auto& audioId : chnaChunk->audioIds()) {
                 std::cout << "   - ";
                 std::cout << audioId.trackIndex() << ", " << audioId.uid() << ", "
                           << audioId.trackRef() << ", " << audioId.packRef() << std::endl;
